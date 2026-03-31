@@ -5,87 +5,131 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-body {
-  font-family: Arial;
-  text-align: center;
-  background: #fff8e1;
-  margin: 0;
-}
+body {font-family: Arial; background:#fff8e1; text-align:center;}
 
-h1 {
-  color: #8b4513;
-}
+header {background:#ffe0b2; padding:15px;}
+
+.logo {width:80px;}
 
 .card {
-  background: white;
-  padding: 15px;
-  margin: 15px;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  background:white;
+  margin:15px;
+  padding:15px;
+  border-radius:10px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.1);
 }
 
-img {
-  width: 100%;
-  border-radius: 10px;
-}
+img {width:100%; border-radius:10px;}
 
 button {
-  padding: 10px;
-  margin: 5px;
-  border: none;
-  border-radius: 5px;
-  font-weight: bold;
-  color: white;
-  background: #ff9800;
+  padding:10px;
+  margin:5px;
+  border:none;
+  border-radius:5px;
+  color:white;
+  font-weight:bold;
 }
 
-.pay {
-  background: #4CAF50;
+.cart-btn {background:#2196F3;}
+.pay {background:#4CAF50;}
+.order {background:#ff9800;}
+
+#cart {
+  background:white;
+  margin:15px;
+  padding:15px;
+  border-radius:10px;
+}
+
+.review {
+  background:#fff3e0;
+  margin:10px;
+  padding:10px;
+  border-radius:10px;
 }
 
 footer {
-  background: #ffe0b2;
-  padding: 10px;
-  margin-top: 20px;
+  background:#ffe0b2;
+  padding:10px;
 }
 </style>
 </head>
 
 <body>
 
+<header>
+<img class="logo" src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png">
 <h1>🍪 Sawad Anushar</h1>
-<p>Authentic Homemade Thekua (Pure Desi Ghee)</p>
+<p>Homemade Snacks</p>
+</header>
 
-<!-- Product 1 -->
+<!-- THEKUA -->
 <div class="card">
 <img src="https://images.unsplash.com/photo-1604908176997-431f1c3f1d72">
-<h2>250g Pack</h2>
+<h2>Thekua 250g</h2>
 <p>₹99</p>
-<button onclick="order()">Order on WhatsApp</button>
-<button class="pay" onclick="pay(99)">Pay Now</button>
+<button class="cart-btn" onclick="addToCart('Thekua',99)">Add to Cart</button>
+<button class="order" onclick="order()">WhatsApp</button>
+<button class="pay" onclick="pay(99)">Pay</button>
 </div>
 
-<!-- Product 2 -->
+<!-- NAMKEEN -->
 <div class="card">
-<img src="https://images.unsplash.com/photo-1604908176997-431f1c3f1d72">
-<h2>500g Pack</h2>
-<p>₹180</p>
-<button onclick="order()">Order on WhatsApp</button>
-<button class="pay" onclick="pay(180)">Pay Now</button>
+<img src="https://images.unsplash.com/photo-1625944525903-c6a6c3bb3c1d">
+<h2>Namkeen 250g</h2>
+<p>₹75</p>
+<button class="cart-btn" onclick="addToCart('Namkeen',75)">Add to Cart</button>
+<button class="order" onclick="order()">WhatsApp</button>
+<button class="pay" onclick="pay(75)">Pay</button>
 </div>
 
-<!-- Product 3 -->
-<div class="card">
-<img src="https://images.unsplash.com/photo-1604908176997-431f1c3f1d72">
-<h2>1kg Pack</h2>
-<p>₹340</p>
-<button onclick="order()">Order on WhatsApp</button>
-<button class="pay" onclick="pay(340)">Pay Now</button>
+<!-- CART -->
+<div id="cart">
+<h2>🛒 Cart</h2>
+<p id="items">No items</p>
+<h3>Total: ₹<span id="total">0</span></h3>
+<p>Delivery Charge: ₹30</p>
+<h3>Grand Total: ₹<span id="grand">0</span></h3>
+
+<button class="cart-btn" onclick="checkout()">Order All on WhatsApp</button>
 </div>
+
+<!-- REVIEWS -->
+<h2>⭐ Customer Reviews</h2>
+
+<div class="review">😍 “Bahut tasty thekua!” – Ravi</div>
+<div class="review">🔥 “Best homemade snacks” – Pooja</div>
+<div class="review">👌 “Crispy aur fresh!” – Aman</div>
+
+<footer>
+📞 8840580032 <br>
+💳 UPI: sona.0032-0@waaxis <br>
+© Sawad Anushar
+</footer>
 
 <script>
+let cart = [];
+let total = 0;
+let delivery = 30;
+
+function addToCart(name, price){
+  cart.push(name + " ₹" + price);
+  total += price;
+
+  document.getElementById("items").innerHTML = cart.join("<br>");
+  document.getElementById("total").innerText = total;
+  document.getElementById("grand").innerText = total + delivery;
+}
+
+function checkout(){
+  let grand = total + delivery;
+  let msg = "Order:\n" + cart.join("\n") + "\nTotal: ₹" + total + "\nDelivery: ₹30\nGrand Total: ₹" + grand;
+
+  window.open("https://wa.me/918840580032?text=" + encodeURIComponent(msg));
+}
+
 function order(){
-  window.open("https://wa.me/918840580032?text=I want to order Thekua from Sawad Anushar");
+  window.open("https://wa.me/918840580032?text=I want to order from Sawad Anushar");
 }
 
 function pay(amount){
@@ -93,11 +137,5 @@ function pay(amount){
 }
 </script>
 
-<footer>
-📞 WhatsApp: 8840580032 <br>
-💳 UPI: sona.0032-0@waaxis <br>
-© Sawad Anushar
-</footer>
-
 </body>
-</html>
+  </html>
