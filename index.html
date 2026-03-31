@@ -2,224 +2,179 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sawad Anushar</title>
 
 <style>
-body {
-  font-family: Arial;
-  margin:0;
-  background: linear-gradient(135deg, #fff3e0, #ffe0b2, #ffcc80);
-}
+body { font-family: Arial; padding: 20px; background:#fff8f0; }
+h1 { color: #d35400; }
 
-header {
-  background: linear-gradient(90deg, #8B4513, #d2691e);
-  color:white;
+.product {
+  border:1px solid #ddd;
   padding:15px;
-  text-align:center;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-}
-
-.container {padding:20px;}
-
-.products {
-  display:flex;
-  gap:20px;
-  flex-wrap:wrap;
-  justify-content:center;
-}
-
-.card {
-  background: linear-gradient(180deg, #ffffff, #fff8f0);
-  padding:15px;
-  border-radius:20px;
-  width:250px;
-  box-shadow:0 6px 15px rgba(0,0,0,0.15);
-  text-align:center;
-  transition: transform 0.3s;
-}
-.card:hover {transform: scale(1.05);}
-
-.card img {
-  width:100%;
+  margin:10px 0;
   border-radius:10px;
+  background:#fff;
 }
 
 button {
-  background:#ff7f50;
+  padding:10px;
+  background:orange;
   border:none;
-  padding:10px;
-  color:white;
-  border-radius:10px;
   cursor:pointer;
-  margin-top:10px;
-}
-
-.qty {
-  display:flex;
-  justify-content:center;
-  gap:10px;
-  margin-top:10px;
-}
-
-.qty button {
-  width:30px;
-  height:30px;
-}
-
-.cart {
-  margin-top:20px;
-  text-align:center;
-}
-
-.review {
-  background:#fff;
-  padding:10px;
-  margin:10px 0;
-  border-radius:10px;
-}
-
-.form-box {
-  background:white;
-  padding:15px;
-  border-radius:15px;
-  margin-top:20px;
-  max-width:400px;
-  margin-left:auto;
-  margin-right:auto;
+  border-radius:5px;
 }
 
 input, textarea {
   width:100%;
-  padding:10px;
-  margin:8px 0;
-  border-radius:8px;
-  border:1px solid #ccc;
+  padding:8px;
+  margin-top:5px;
 }
 
-.whatsapp-btn {background:#25D366;}
-.upi-btn {background:#000;}
+#label {
+  border:2px dashed black;
+  padding:15px;
+  margin-top:10px;
+  background:#fff;
+}
 
+#thankyou {
+  border:2px solid green;
+  padding:15px;
+  margin-top:15px;
+  background:#f0fff0;
+}
 </style>
 </head>
 
 <body>
 
-<header>
-<h1>Sawad Anushar</h1>
-<p>Buy 1 Get 1 Free Offer 🎉</p>
-</header>
+<h1>🛒 Sawad Anushar Store</h1>
 
-<div class="container">
+<!-- PRODUCTS -->
 
-<div class="products">
-
-<div class="card">
-<img src="https://i.imgur.com/7yUvePI.jpg">
-<h3>Thekua</h3>
-<p>₹200 (Buy 1 Get 1 Free)</p>
-
-<div class="qty">
-<button onclick="changeQty('Thekua',-1)">-</button>
-<span id="qty-Thekua">1</span>
-<button onclick="changeQty('Thekua',1)">+</button>
+<div class="product">
+  <h2>Thekua (250g)</h2>
+  <p>Price: ₹200</p>
+  <p><b>🎉 Buy 1 Get 1 Free</b></p>
+  <button onclick="addToCart('Thekua',200)">Add to Cart</button>
 </div>
 
-<button onclick="addToCart('Thekua',200)">Add to Cart</button>
+<div class="product">
+  <h2>Namkeen (250g)</h2>
+  <p>Price: ₹150</p>
+  <p><b>🎉 Buy 1 Get 1 Free</b></p>
+  <button onclick="addToCart('Namkeen',150)">Add to Cart</button>
 </div>
 
-<div class="card">
-<img src="https://i.imgur.com/9XqQZ5L.jpg">
-<h3>Namkeen</h3>
-<p>₹150 (Buy 1 Get 1 Free)</p>
+<hr>
 
-<div class="qty">
-<button onclick="changeQty('Namkeen',-1)">-</button>
-<span id="qty-Namkeen">1</span>
-<button onclick="changeQty('Namkeen',1)">+</button>
-</div>
+<h2>Total: ₹<span id="total">0</span></h2>
+<h3>Delivery: ₹<span id="delivery">0</span></h3>
+<h2>Final Amount: ₹<span id="final">0</span></h2>
 
-<button onclick="addToCart('Namkeen',150)">Add to Cart</button>
-</div>
+<!-- WHATSAPP ORDER -->
+<button onclick="sendWhatsApp()">📲 Order on WhatsApp</button>
 
-</div>
+<hr>
 
-<div class="cart">
-<h2>Cart</h2>
-<p id="cartItems"></p>
-<h3 id="total"></h3>
-</div>
+<!-- CUSTOMER DETAILS -->
+<h2>📦 Shipping Details</h2>
 
-<div class="form-box">
-<h3>Enter Delivery Details</h3>
-<input type="text" id="name" placeholder="Your Name">
-<input type="text" id="phone" placeholder="Phone Number">
+<input id="name" placeholder="Customer Name">
+<input id="phone" placeholder="Phone Number">
 <textarea id="address" placeholder="Full Address"></textarea>
 
-<button class="whatsapp-btn" onclick="placeOrder()">Order on WhatsApp</button>
-<button class="upi-btn" onclick="payUPI()">Pay via UPI</button>
-</div>
+<button onclick="generateLabel()">Generate Label</button>
 
-<div id="thankyou" style="display:none; text-align:center; margin-top:20px;">
-<h2>🎉 Thank You for Your Order!</h2>
-<p>We will contact you soon.</p>
-</div>
+<!-- LABEL -->
+<div id="label">Shipping Label Preview</div>
 
-<div class="reviews">
-<h2>Customer Reviews ⭐</h2>
-<div class="review">Bahut tasty thekua! - Rahul</div>
-<div class="review">Namkeen crispy aur fresh tha - Priya</div>
-<div class="review">Best homemade taste - Amit</div>
-</div>
-
-</div>
+<!-- THANK YOU -->
+<div id="thankyou" style="display:none;"></div>
 
 <script>
+
 let total = 0;
-let items = [];
-let quantities = {Thekua:1, Namkeen:1};
+let cart = [];
 
-function changeQty(name, change){
-  quantities[name] += change;
-  if(quantities[name] < 1) quantities[name] = 1;
-  document.getElementById("qty-"+name).innerText = quantities[name];
+function addToCart(name, price) {
+  total += price;
+  cart.push(name);
+  updateTotal();
 }
 
-function addToCart(name, price){
-  let qty = quantities[name];
-  items.push(name + " x" + qty);
-  total += price * qty;
+function updateTotal() {
+  let delivery = total > 1000 ? 0 : 149;
 
-  let delivery = total < 1000 ? 150 : 0;
-
-  document.getElementById("cartItems").innerText = items.join(", ");
-  document.getElementById("total").innerText =
-    "Total: ₹" + (total + delivery) + " (Delivery: ₹" + delivery + ")";
+  document.getElementById("total").innerText = total;
+  document.getElementById("delivery").innerText = delivery;
+  document.getElementById("final").innerText = total + delivery;
 }
 
-function placeOrder(){
+function generateLabel() {
   let name = document.getElementById("name").value;
   let phone = document.getElementById("phone").value;
   let address = document.getElementById("address").value;
 
-  let delivery = total < 1000 ? 150 : 0;
-  let finalTotal = total + delivery;
+  let delivery = total > 1000 ? 0 : 149;
+  let finalAmount = total + delivery;
 
-  let message = `New Order%0AName: ${name}%0APhone: ${phone}%0AAddress: ${address}%0AItems: ${items.join(", ")}%0ATotal: ₹${finalTotal}`;
+  let items = cart.join(", ");
 
-  window.open(`https://wa.me/918840580032?text=${message}`);
+  document.getElementById("label").innerHTML = `
+    <h3>SAWAD ANUSHAR</h3>
+    <p><b>Name:</b> ${name}</p>
+    <p><b>Phone:</b> ${phone}</p>
+    <p><b>Address:</b><br>${address}</p>
+    <hr>
+    <p><b>Products:</b> ${items}</p>
+    <p><b>Amount:</b> ₹${total}</p>
+    <p><b>Delivery:</b> ₹${delivery}</p>
+    <p><b>Total:</b> ₹${finalAmount}</p>
+    <hr>
+    <p>From: Sawad Anushar, Gorakhpur</p>
+  `;
 
   document.getElementById("thankyou").style.display = "block";
+  document.getElementById("thankyou").innerHTML = `
+    <h3>🙏 Thank You!</h3>
+    <p>Dear ${name},</p>
+    <p>Thanks for ordering from <b>Sawad Anushar</b> ❤️</p>
+    <p>Enjoy your Thekua & Namkeen 😋</p>
+    <p>Visit Again 🙌</p>
+    <p>📞 8840580032</p>
+  `;
 }
 
-function payUPI(){
-  let delivery = total < 1000 ? 150 : 0;
-  let finalTotal = total + delivery;
+function sendWhatsApp() {
+  let name = document.getElementById("name").value;
+  let phone = document.getElementById("phone").value;
+  let address = document.getElementById("address").value;
 
-  let upiLink = `upi://pay?pa=8840580032@upi&pn=SawadAnushar&am=${finalTotal}&cu=INR`;
-  window.location.href = upiLink;
+  let delivery = total > 1000 ? 0 : 149;
+  let finalAmount = total + delivery;
+  let items = cart.join(", ");
+
+  let message = `🛒 *New Order - Sawad Anushar*
+  
+👤 Name: ${name}
+📞 Phone: ${phone}
+🏠 Address: ${address}
+
+🛍 Products: ${items}
+
+💰 Amount: ₹${total}
+🚚 Delivery: ₹${delivery}
+🧾 Total: ₹${finalAmount}
+
+🎉 Offer: Buy 1 Get 1 Free`;
+
+  let url = "https://wa.me/918840580032?text=" + encodeURIComponent(message);
+
+  window.open(url, "_blank");
 }
+
 </script>
 
 </body>
-</html>
+	</html>
